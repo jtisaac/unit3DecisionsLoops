@@ -30,7 +30,12 @@ The universe of the Game of Life is an infinite two-dimensional orthogonal
 	moment at which this happens is sometimes called a tick (in other words,
 	each generation is a pure function of the preceding one). The rules
 	continue to be applied repeatedly to create further generations.
-
+*Custom Requirements:
+*The dimensions of the grid will be 50 by 50.
+*The live cells will be displayed by a black square, the dead ones will be kept blank (as white squares)
+*There will be two different patterns that will be displayed that will work in tandem Gosper's Glide Gun and 3line(recursive).
+*It will not wrap around grid.
+*It will continue until a key is pressed.
 
 Nonfunctional Requirements:
 
