@@ -41,6 +41,8 @@ public class GameOfLife
         // display the newly constructed and populated world
         world.show();
         
+        // Joseph Isaac Edit: now I will analyze for the next generation
+        this.createNextGeneration();
     }
     
     /**
@@ -84,7 +86,20 @@ public class GameOfLife
         Location loc5 = new Location(Y5, X5);
         grid.put(loc5, rock5);
     }
-
+   /**
+     * Returns the actor at the specified row and column. Intended to be used for unit testing.
+     *
+     * @param   row the row (zero-based index) of the actor to return
+     * @param   col the column (zero-based index) of the actor to return
+     * @pre     the grid has been created
+     * @return  the actor at the specified row and column
+     */
+    public  Actor getActor(int row, int col)
+    {
+        Location loc = new Location(row, col);
+        Actor actor = world.getGrid().get(loc);
+        return actor;
+    }
     /**
      * Generates the next generation based on the rules of the Game of Life and updates the grid
      * associated with the world
@@ -93,7 +108,7 @@ public class GameOfLife
      * @post    the world has been populated with a new grid containing the next generation
      * 
      */
-    private void createNextGeneration()
+    public void createNextGeneration()
     {
         /** You will need to read the documentation for the World, Grid, and Location classes
          *      in order to implement the Game of Life algorithm and leverage the GridWorld framework.
@@ -102,25 +117,30 @@ public class GameOfLife
         // create the grid, of the specified size, that contains Actors
         Grid<Actor> grid = world.getGrid();
         
-        // insert magic here...
-        
-    }
-    
-    /**
-     * Returns the actor at the specified row and column. Intended to be used for unit testing.
-     *
-     * @param   row the row (zero-based index) of the actor to return
-     * @param   col the column (zero-based index) of the actor to return
-     * @pre     the grid has been created
-     * @return  the actor at the specified row and column
-     */
-    public Actor getActor(int row, int col)
-    {
-        Location loc = new Location(row, col);
-        Actor actor = world.getGrid().get(loc);
-        return actor;
-    }
+        final int ROWS = grid.getNumRows();
+        final int COLS = grid.getNumCols();
 
+        for(int row = 0; row < ROWS; row++)
+        {
+            for(int col = 0; col < COLS; col++)
+            {
+                // in this example, an alive cell has a non-null actor and a dead cell has a null actor
+                Actor cell = this.getActor(row, col);
+
+                // if the cell at the current row and col should be alive, assert that the actor is not null
+                if( cell == null    )
+                {
+                    System.out.println(" Hooryajimmylzhu ");
+                }
+                else // else, the cell should be dead; assert that the actor is null
+                {
+                    System.out.println("jimmylzhu");
+                }
+            }
+        }
+    
+    }
+   
     /**
      * Returns the number of rows in the game board
      *
