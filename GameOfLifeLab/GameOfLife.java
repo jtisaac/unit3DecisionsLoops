@@ -4,6 +4,7 @@ import info.gridworld.actor.Rock;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
+import java.util.ArrayList;
 
 /**
  * Game of Life starter code. Demonstrates how to create and populate the game using the GridWorld framework.
@@ -126,15 +127,34 @@ public class GameOfLife
             {
                 // in this example, an alive cell has a non-null actor and a dead cell has a null actor
                 Actor cell = this.getActor(row, col);
-
+                Location cellsloc = new Location(row, col);
                 // if the cell at the current row and col should be alive, assert that the actor is not null
-                if( cell == null    )
+                System.out.println("Hooryajimmylzhu ");
+                ArrayList<Location> array = grid.getOccupiedAdjacentLocations(cellsloc);
+                int numadjacent = array.size();
+                if( cell != null    )
                 {
-                    System.out.println(" Hooryajimmylzhu ");
+                    
+                    if (numadjacent == 3)
+                    {
+                        System.out.println("this cell shall beome alive in the next generation.");
+                    }
+                    else
+                    {
+                        System.out.println("This cell shall remain dead in the next generation.");
+                    }
                 }
                 else // else, the cell should be dead; assert that the actor is null
                 {
                     System.out.println("jimmylzhu");
+                    if (numadjacent >= 2 && numadjacent <= 3 )
+                    {
+                        System.out.println("aliverastogi");
+                    }
+                    else
+                    {
+                        System.out.println("the cell dies");
+                    }
                 }
             }
         }
