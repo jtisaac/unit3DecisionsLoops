@@ -1,4 +1,4 @@
-Introduction
+﻿Introduction
 
 The goal of this lab is to apply your understanding of decision and loop
 	structures to implement a complex algorithm within the context of an
@@ -33,9 +33,9 @@ The universe of the Game of Life is an infinite two-dimensional orthogonal
 *Custom Requirements:
 *The dimensions of the grid will be 50 by 50.
 *The live cells will be displayed by a black square, the dead ones will be kept blank (as white squares)
-*There will be two different patterns that will be displayed that will work in tandem Gosper's Glide Gun and 3line(recursive).
-*It will not wrap around grid.
-*It will continue until a key is pressed.
+*There will be one pattern, starting as a cross of length 1. This will be the only pattern that runs (no user input needed; Entirely code-run).
+*It will not wrap around grid (this is a bounded grid)
+*The code runs for 3 seconds (3 generations) 1 minute for every generation
 
 Nonfunctional Requirements:
 
