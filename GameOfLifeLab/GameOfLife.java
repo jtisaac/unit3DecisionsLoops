@@ -5,6 +5,7 @@ import info.gridworld.grid.Grid;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.grid.Location;
 import java.util.ArrayList;
+import java.lang.Boolean;
 
 /**
  * Game of Life starter code. Demonstrates how to create and populate the game using the GridWorld framework.
@@ -17,11 +18,11 @@ public class GameOfLife
 {
     // the world comprised of the grid that displays the graphics for the game
     private ActorWorld world;
-    
+
     // the game board will have 5 rows and 5 columns
     private final int ROWS = 50;
     private final int COLS = 50;
-    
+
     /**
      * Default constructor for objects of class GameOfLife
      * 
@@ -32,24 +33,17 @@ public class GameOfLife
     {
         // create the grid, of the specified size, that contains Actors
         BoundedGrid<Actor> grid = new BoundedGrid<Actor>(ROWS, COLS);
-        
+
         // create a world based on the grid
         world = new ActorWorld(grid);
-        
+
         // populate the game
         populateGame();
-        
+
         // display the newly constructed and populated world
         world.show();
-        
-        // Joseph Isaac Edit: now I will analyze for the next generation
-        //Generation 2
-        this.createNextGeneration();
-        //Generation 3
-        this.createNextGeneration();
-        //after this generation the test should ring true
+
     }
-    
     /**
      * Creates the actors and inserts them into their initial starting positions in the grid
      *
@@ -69,29 +63,31 @@ public class GameOfLife
         // the grid of Actors that maintains the state of the game
         //  (alive cells contains actors; dead cells do not)
         Grid<Actor> grid = world.getGrid();
-        
+
         // create and add rocks (a type of Actor) to the three intial locations
         Rock rock1 = new Rock();
         Location loc1 = new Location(Y1, X1);
         grid.put(loc1, rock1);
-        
+
         Rock rock2 = new Rock();
         Location loc2 = new Location(Y2, X2);
         grid.put(loc2, rock2);
-        
+
         Rock rock3 = new Rock();
         Location loc3 = new Location(Y3, X3);
         grid.put(loc3, rock3);
-        
+
         Rock rock4 = new Rock();
         Location loc4 = new Location(Y4, X4);
         grid.put(loc4, rock4);
-        
+
         Rock rock5 = new Rock();
         Location loc5 = new Location(Y5, X5);
         grid.put(loc5, rock5);
+        world.show();
     }
-   /**
+
+    /**
      * Returns the actor at the specified row and column. Intended to be used for unit testing.
      *
      * @param   row the row (zero-based index) of the actor to return
@@ -105,6 +101,7 @@ public class GameOfLife
         Actor actor = world.getGrid().get(loc);
         return actor;
     }
+
     /**
      * Generates the next generation based on the rules of the Game of Life and updates the grid
      * associated with the world
@@ -118,17 +115,17 @@ public class GameOfLife
         /** You will need to read the documentation for the World, Grid, and Location classes
          *      in order to implement the Game of Life algorithm and leverage the GridWorld framework.
          */
-        
+
         // create the grid, of the specified size, that contains Actors
         Grid<Actor> grid = world.getGrid();
-        
+
         final int ROWS = grid.getNumRows();
         final int COLS = grid.getNumCols();
         //I'm making a new grid
-        //BoundedGrid<Actor> NextGenGrid = new BoundedGrid<Actor>(ROWS, COLS);
+        BoundedGrid<Actor> NextGenGrid = new BoundedGrid<Actor>(ROWS, COLS);
         //Instead, I'm making an array to put the values of each cell
-        listOflLives = ArrayList(2500);
-        
+        //ArrayList<Boolean> listOfLives= new ArrayList<Boolean>();
+
         boolean actorAtLocation = false;
         for(int row = 0; row < ROWS; row++)
         {
@@ -138,71 +135,20 @@ public class GameOfLife
                 Actor cell = this.getActor(row, col);
                 Location cellsloc = new Location(row, col);
                 // if the cell at the current row and col should be alive, assert that the actor is not null
-                System.out.println("Checking Cell for activity, please stand by.");
-                ArrayList<Location> array = grid.getOccupiedAdjacentLocations(cellsloc);
-                int numadjacent = array.size();
-                if( cell != null)
+                
+                int numadjacent = grid.getNeighbors(cellsloc).size();
+                if( numadjacent == 3 || (cell != null && numadjacent == 2))
                 {
-                    System.out.println("There is currently a live cell at this location.");
-                    if (numadjacent == 3)
-                    {
-                        System.out.println("this cell shall beome alive in the next generation.");
-                        actorAtLocation = true;
-                    }
-                    else
-                    {
-                        System.out.println("This cell shall remain dead in the next generation.");
-                        actorAtLocation = false;
-                    }
+                    NextGenGrid.put(cellsloc,new Rock());
+
                 }
-                else // else, the cell should be dead; assert that the actor is null
-                {
-                    System.out.println("There is no cell at this location currently, checking for activity.");
-                    if (numadjacent >= 2 && numadjacent <= 3 )
-                    {
-                        System.out.println("The cell stays alive.");
-                        actorAtLocation = true;
-                    }
-                    else
-                    {
-                        System.out.println("The cell dies.");
-                        actorAtLocation = false;
-                    }
-                }
-                //Now, I shall put this nextgen cell on a new grid, displyed in the next generation. I will mark its location and if it is dead or not
-                /*if (actorAtLocation == true)
-                {
-                    Rock nextGenRock = new Rock();
-                    Location locOfNewActor = new Location(row, col);
-                    NextGenGrid.put(locOfNewActor, nextGenRock);
-                }
-                else
-                {
-                }
-                */
-               
-               //Now, I will construct an array that stores the values for the locations of the cells that are alive.
-               
-               listOfLives.add(actorAtLocation);
-               
+                
             }
         }
-        for(int row = 0; row < ROWS; row++)
-        {
-        
-            for(int col = 0; col < COLS; col++)
-            {
-                isActorThere = listOfLives.get( row*col + col - 1);
-                if (isActorThere = true)
-                {
-                    Rock rocku = new Rock();
-                    Location locto = new Location(Y1, X1);
-                    grid.put(locto, rocku);
-                }
-            }
-        }
+        world.setGrid(NextGenGrid);
+        world.show();
     }
-   
+
     /**
      * Returns the number of rows in the game board
      *
@@ -212,7 +158,7 @@ public class GameOfLife
     {
         return ROWS;
     }
-    
+
     /**
      * Returns the number of columns in the game board
      *
@@ -222,15 +168,22 @@ public class GameOfLife
     {
         return COLS;
     }
-    
-    
+
     /**
      * Creates an instance of this class. Provides convenient execution.
      *
      */
-    public static void main(String[] args)
+    public static void main(String[] args) throws InterruptedException
     {
-        GameOfLife game = new GameOfLife();
+        GameOfLife game = new GameOfLife(); 
+        Thread.sleep(1000);
+        // Joseph Isaac Edit: now I will analyze for the next generation
+        //Generation 2
+        game.createNextGeneration();
+        Thread.sleep(1000);
+        //Generation 3
+        game.createNextGeneration();
+        //after this generation the test should ring true
     }
 
 }
