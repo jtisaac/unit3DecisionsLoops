@@ -138,16 +138,16 @@ public class GameOfLife
                 // if the cell at the current row and col should be alive, assert that the actor is not null
                 
                 int numadjacent = grid.getNeighbors(cellsloc).size();
-                if( numadjacent == 3 || (cell != null && numadjacent == 2))
+                if( numadjacent == 3 || (cell != null && numadjacent == 2))// this is all the logic for determining if the cell szhould be alive or dead in the next generation
                 {
-                    NextGenGrid.put(cellsloc,new Rock());
+                    NextGenGrid.put(cellsloc,new Rock()); // puts the rock on the grid
 
                 }
                 
             }
-        }
-        world.setGrid(NextGenGrid);
-        world.show();
+        } 
+        world.setGrid(NextGenGrid); //the new grid becomes the one that is used in the world
+        world.show(); // shows the world
     }
 
     /**
@@ -178,10 +178,10 @@ public class GameOfLife
     {
         GameOfLife game = new GameOfLife(); 
         Thread.sleep(1000);
-        // Joseph Isaac Edit: now I will analyze for the next generation
+        
         //Generation 2
         game.createNextGeneration();
-        Thread.sleep(1000);
+        Thread.sleep(1000); //sleep
         //Generation 3
         game.createNextGeneration();
         //after this generation the test should ring true
